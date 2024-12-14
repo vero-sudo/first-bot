@@ -14,8 +14,11 @@ if not TOKEN:
 
 # Create a client instance for the bot
 intents = discord.Intents.default()
-intents.message_content = True  # Allow the bot to read messages
+intents.message_content = True  # Enable message content intent
+intents.members = True  # Enable member intent if needed
+
 client = discord.Client(intents=intents)
+
 
 # Event: Bot has connected to the server
 @client.event
