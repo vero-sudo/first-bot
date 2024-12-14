@@ -1,29 +1,28 @@
-name: Deploy Discord Bot
+name: Run Discord Bot
 
 on:
   push:
     branches:
-      - main  # Triggers the workflow on pushes to the main branch
-
+      - main  # Trigger when you push code to the main branch
+  schedule:
+    - cron: '0 */72 * * *'  # Trigger every 72 hours (3 days)
+    
 jobs:
-  deploy:
+  bot:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
 
-      - name: Run bot
-        run: python bot.py  # Runs your bot.py script
-        env:
-          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}  # Your bot's token stored in GitHub Secrets
+    - name: Run Bot
+      run: python bot.py
