@@ -25,14 +25,28 @@ client = discord.Client(intents=intents)
 async def on_ready():
     print(f'Logged in as {client.user}')
 
-# Event: Respond to messages
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return  # Don't let the bot reply to itself
+# Command: Create a ticket and post it to the "public-general" channel
+@client.command()
+async def ticket(ctx, *, issue: str):
+    # Check if the user has the proper permissions (optional)
+    if not ctx.author.guild_permissions.manage_messages:
+        await ctx.send("You don't have permission to create a ticket.")
+        return
+    
+    # Find the channel where the ticket will be posted
+    channel = discord.utils.get(ctx.guild.text_channels, name='public-general')
+    if not channel:
+        await ctx.send("The 'public-general' channel was not found.")
+        return
 
-    if message.content.startswith('!hello'):
-        await message.channel.send(f'Hello, {message.author.name}!')
+    # Create the ticket message format
+    ticket_message = f"**New Ticket Created by {ctx.author.name}**\n\nIssue: {issue}"
 
-# Run the bot with the token
-client.run(TOKEN)
+    # Post the ticket to the channel
+    await channel.send(ticket_message)
+
+    # Acknowledge that the ticket has been created
+    await ctx.send(f"Ticket created successfully in {channel.mention}.")
+
+# Run the bot with your token
+client.run('YOUR_DISCORD_TOKEN')
