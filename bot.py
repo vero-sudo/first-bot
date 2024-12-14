@@ -19,34 +19,47 @@ intents.members = True  # Enable member intent if needed
 
 client = discord.Client(intents=intents)
 
-
 # Event: Bot has connected to the server
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')
 
-# Command: Create a ticket and post it to the "public-general" channel
-@client.command()
-async def ticket(ctx, *, issue: str):
-    # Check if the user has the proper permissions (optional)
-    if not ctx.author.guild_permissions.manage_messages:
-        await ctx.send("You don't have permission to create a ticket.")
-        return
-    
-    # Find the channel where the ticket will be posted
-    channel = discord.utils.get(ctx.guild.text_channels, name='public-general')
-    if not channel:
-        await ctx.send("The 'public-general' channel was not found.")
-        return
+# Event: Respond to messages
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return  # Don't let the bot reply to itself
 
-    # Create the ticket message format
-    ticket_message = f"**New Ticket Created by {ctx.author.name}**\n\nIssue: {issue}"
+    # Command: !datarequest [username] [data change type] [optional extra info]
+    if message.content.startswith('!datarequest'):
+        # Split the command into arguments
+        args = message.content.split(' ', 3)  # Split into 4 parts max
 
-    # Post the ticket to the channel
-    await channel.send(ticket_message)
+        # Ensure the command has the required arguments
+        if len(args) < 3:
+            await message.channel.send("Please provide the Discord username, data change type, and optional extra info.")
+            return
 
-    # Acknowledge that the ticket has been created
-    await ctx.send(f"Ticket created successfully in {channel.mention}.")
+        # Extract the arguments
+        discord_username = args[1]
+        data_change_type = args[2]
+        extra_info = args[3] if len(args) > 3 else "No extra info provided"  # Default message if no extra info
 
-# Run the bot with your token
-client.run('YOUR_DISCORD_TOKEN')
+        # Create the ticket message
+        ticket_message = (
+            f"**Ticket Request:**\n"
+            f"**Username:** {discord_username}\n"
+            f"**Data Change Type:** {data_change_type}\n"
+            f"**Extra Info:** {extra_info}"
+        )
+
+        # Get the channel where the ticket will be posted (replace 'public-general' with your desired channel name)
+        channel = discord.utils.get(message.guild.text_channels, name="public-general")
+        if channel:
+            await channel.send(ticket_message)
+            await message.channel.send(f"Ticket created for {discord_username} in {channel.mention}.")
+        else:
+            await message.channel.send("Could not find the 'public-general' channel.")
+
+# Run the bot with the token
+client.run(TOKEN)
