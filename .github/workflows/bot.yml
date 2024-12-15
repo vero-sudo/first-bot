@@ -5,7 +5,7 @@ on:
     branches:
       - main  # Trigger when you push code to the main branch
   schedule:
-    - cron: '0 */72 * * *'  # Run every 72 hours
+    - cron: '0 */72 * * *'
 
 jobs:
   bot:
@@ -18,15 +18,15 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'  # Use the latest LTS version of Node.js
+        node-version: '16'  # Use at least version 16.x or 18.x
 
     - name: Install dependencies
       run: |
-        npm install  # Installs dependencies in package.json
+        npm install
 
     - name: Run Bot
       env:
         DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
       run: |
         echo "Running the bot..."
-        node bot.js  # Change to use node.js to run the bot
+        node bot.js  # Ensure to use node for running the bot in JavaScript
