@@ -1,20 +1,27 @@
-// Import the required library
+// bot.js
 const { Client, GatewayIntentBits } = require('discord.js');
+require('dotenv').config();  // To load the token from .env
 
-// Create a new client instance with intents
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+// Create a new client instance
+const client = new Client({ 
+    intents: [
+        GatewayIntentBits.Guilds, 
+        GatewayIntentBits.GuildMessages, 
+        GatewayIntentBits.MessageContent 
+    ] 
+});
 
 // When the bot is ready
 client.once('ready', () => {
-    console.log('Bot is online!');
+    console.log(`Logged in as ${client.user.tag}!`);
 });
 
-// When a message is received
+// Listen for messages and respond
 client.on('messageCreate', (message) => {
     if (message.content === '!hello') {
-        message.reply('Hello!');
+        message.channel.send(`Hello, ${message.author.username}!`);
     }
 });
 
-// Log in using your bot's token (use an environment variable for security)
-client.login(process.env.DISCORD_TOKEN);  // Ensure you have the DISCORD_TOKEN set in your .env file
+// Log in to Discord with the token from the environment
+client.login(process.env.DISCORD_TOKEN);
