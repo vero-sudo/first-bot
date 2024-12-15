@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Fetch the token from environment variables (GitHub Secrets for deployment)
-TOKEN = os.getenv("DISCORD_TOKEN")
+TOKEN = "MTMxNzYzMDAzOTgzMTA4NTE1OA.GaxXcu.fwxOkd4U4kUsdvPNuemVAHEi29w3aPD5JDHmio" # os.getenv("DISCORD_TOKEN")
 
 # Check if the token is properly loaded
 if not TOKEN:
