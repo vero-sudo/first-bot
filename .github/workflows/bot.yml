@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main  # Trigger when you push code to the main branch
-  schedule:
-    - cron: '0 */72 * * *'  # Trigger every 72 hours (3 days)
+  # schedule:
+  #  - cron: '0 */72 * * *'
     
 jobs:
   bot:
