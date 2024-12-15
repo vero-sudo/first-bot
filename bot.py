@@ -28,17 +28,14 @@ async def on_ready():
 # Slash Command: /datarequest [username] [data change type] [optional extra info]
 @bot.tree.command(name="datarequest", description="Create a data request ticket")
 async def datarequest(interaction: discord.Interaction, 
-                      username: str, 
-                      change_type: str, 
-                      extra_info: str = "No extra info provided"):
-    """Handles the datarequest slash command."""
-    
+                      Target: str, Data: str, Modified_To: str):  # Added closing parenthesis
+
     # Create the ticket message
     ticket_message = (
         f"**Ticket Request:**\n"
-        f"**Username:** {username}\n"
-        f"**Data Change Type:** {change_type}\n"
-        f"**Extra Info:** {extra_info}"
+        f"**Username:** {Target}\n"
+        f"**Data Change Type:** {Data}\n"
+        f"**Modified To:** {Modified_To}" 
     )
 
     # Get the channel where the ticket will be posted (replace 'public-general' with your desired channel name)
