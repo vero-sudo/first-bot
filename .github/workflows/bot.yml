@@ -25,6 +25,8 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run Bot
-      env:
-        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}  # Use the token from GitHub Secrets
-      run: python bot.py  # Run the bot script
+  env:
+    DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+  run: |
+    nohup python bot.py &
+    echo "Bot is running in the background"
