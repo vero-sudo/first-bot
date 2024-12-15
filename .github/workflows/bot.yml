@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main  # Trigger when you push code to the main branch
-   schedule:
-    - cron: '0 */72 * * *'
-    
+  schedule:
+    - cron: '0 */72 * * *'  # Every 72 hours
+
 jobs:
   bot:
     runs-on: ubuntu-latest
@@ -30,4 +30,3 @@ jobs:
       run: |
         echo "Running the bot..."
         python bot.py
-
