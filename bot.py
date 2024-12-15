@@ -54,5 +54,5 @@ async def on_ready():
     await bot.tree.sync()
     print(f"Bot is ready and synced.")
 
-# Run the bot with the token
+
 bot.run(TOKEN)
