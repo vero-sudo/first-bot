@@ -1,0 +1,18 @@
+{
+  "name": "first-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot built using discord.js",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.8.0"  // Your version of discord.js might vary
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
