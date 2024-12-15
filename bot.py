@@ -25,10 +25,10 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def on_ready():
     print(f'Logged in as {bot.user}')
 
-# Slash Command: /datarequest [username] [data change type] [optional extra info]
+# Slash Command: /datarequest [target] [data_change_type] [modified_to]
 @bot.tree.command(name="datarequest", description="Create a data request ticket")
 async def datarequest(interaction: discord.Interaction, 
-                      Target: str, Data: str, Modified_To: str):  
+                      target: str, data_change_type: str, modified_to: str):  # Fixed parameter names
 
     # Create the embed message
     embed = discord.Embed(
@@ -36,15 +36,15 @@ async def datarequest(interaction: discord.Interaction,
         description=f"A request for data modification has been created.",
         color=discord.Color.blue()  # Set the embed color
     )
-    embed.add_field(name="**Username**", value=Target, inline=False)
-    embed.add_field(name="**Data Change Type**", value=Data, inline=False)
-    embed.add_field(name="**Modified To**", value=Modified_To, inline=False)
+    embed.add_field(name="**Username**", value=target, inline=False)
+    embed.add_field(name="**Data Change Type**", value=data_change_type, inline=False)
+    embed.add_field(name="**Modified To**", value=modified_to, inline=False)
 
     # Get the channel where the ticket will be posted (replace 'public-general' with your desired channel name)
     channel = discord.utils.get(interaction.guild.text_channels, name="public-general")
     if channel:
         await channel.send(embed=embed)
-        await interaction.response.send_message(f"Ticket created for {Target} in {channel.mention}.")
+        await interaction.response.send_message(f"Ticket created for {target} in {channel.mention}.")
     else:
         await interaction.response.send_message("Could not find the 'public-general' channel.")
 
@@ -54,5 +54,5 @@ async def on_ready():
     await bot.tree.sync()
     print(f"Bot is ready and synced.")
 
-
+# Run the bot with the token
 bot.run(TOKEN)
