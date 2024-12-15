@@ -5,7 +5,7 @@ on:
     branches:
       - main  # Trigger when you push code to the main branch
   schedule:
-    - cron: '0 */72 * * *'  # Every 72 hours
+    - cron: '0 */72 * * *'  # Run every 72 hours
 
 jobs:
   bot:
@@ -15,18 +15,18 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
       with:
-        python-version: '3.x'
+        node-version: '16'  # Use the latest LTS version of Node.js
 
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt
+        npm install  # Installs dependencies in package.json
 
     - name: Run Bot
       env:
         DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
       run: |
         echo "Running the bot..."
-        python bot.py
+        node bot.js  # Change to use node.js to run the bot
