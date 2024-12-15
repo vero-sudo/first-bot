@@ -28,21 +28,23 @@ async def on_ready():
 # Slash Command: /datarequest [username] [data change type] [optional extra info]
 @bot.tree.command(name="datarequest", description="Create a data request ticket")
 async def datarequest(interaction: discord.Interaction, 
-                      Target: str, Data: str, Modified_To: str):  # Added closing parenthesis
+                      Target: str, Data: str, Modified_To: str):  
 
-    # Create the ticket message
-    ticket_message = (
-        f"**Ticket Request:**\n"
-        f"**Username:** {Target}\n"
-        f"**Data Change Type:** {Data}\n"
-        f"**Modified To:** {Modified_To}" 
+    # Create the embed message
+    embed = discord.Embed(
+        title="**Ticket Request**",
+        description=f"A request for data modification has been created.",
+        color=discord.Color.blue()  # Set the embed color
     )
+    embed.add_field(name="**Username**", value=Target, inline=False)
+    embed.add_field(name="**Data Change Type**", value=Data, inline=False)
+    embed.add_field(name="**Modified To**", value=Modified_To, inline=False)
 
     # Get the channel where the ticket will be posted (replace 'public-general' with your desired channel name)
     channel = discord.utils.get(interaction.guild.text_channels, name="public-general")
     if channel:
-        await channel.send(ticket_message)
-        await interaction.response.send_message(f"Ticket created for {username} in {channel.mention}.")
+        await channel.send(embed=embed)
+        await interaction.response.send_message(f"Ticket created for {Target} in {channel.mention}.")
     else:
         await interaction.response.send_message("Could not find the 'public-general' channel.")
 
