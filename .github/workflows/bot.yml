@@ -24,9 +24,10 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    - name: Run Bot
+- name: Run Bot
   env:
     DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
   run: |
-    nohup python bot.py &
-    echo "Bot is running in the background"
+    nohup python bot.py > bot.log 2>&1 &
+    tail -f bot.log  # This will show the bot logs to check if it's running
+
